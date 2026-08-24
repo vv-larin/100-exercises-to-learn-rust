@@ -2,6 +2,28 @@
 //  unless a certain operation has been performed on it.
 //  You can see the expected API in the tests below.
 
+struct DropBomb {
+    was_defused: bool,
+}
+
+impl DropBomb {
+    fn new() -> Self {
+        DropBomb { was_defused: false }
+    }
+
+    fn defuse(&mut self) {
+        self.was_defused = true;
+    }
+}
+
+impl Drop for DropBomb {
+    fn drop(&mut self) {
+        if !self.was_defused {
+            panic!("The bomb has EXPLODED!");
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
