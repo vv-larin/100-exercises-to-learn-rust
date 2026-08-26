@@ -16,24 +16,21 @@ enum Status {
 }
 
 impl Ticket {
-    pub fn new(title: String, description: String, status: Status) -> Ticket {
+    pub fn new(title: String, description: String, status: Status) -> Result<Ticket, String> {
         if title.is_empty() {
-            panic!("Title cannot be empty");
-        }
-        if title.len() > 50 {
-            panic!("Title cannot be longer than 50 bytes");
-        }
-        if description.is_empty() {
-            panic!("Description cannot be empty");
-        }
-        if description.len() > 500 {
-            panic!("Description cannot be longer than 500 bytes");
-        }
-
-        Ticket {
-            title,
-            description,
-            status,
+            Err(String::from("Title cannot be empty"))
+        } else if title.len() > 50 {
+            Err(String::from("Title cannot be longer than 50 bytes"))
+        } else if description.is_empty() {
+            Err(String::from("Description cannot be empty"))
+        } else if description.len() > 500 {
+            Err(String::from("Description cannot be longer than 500 bytes"))
+        } else {
+            Ok(Ticket {
+                title,
+                description,
+                status,
+            })
         }
     }
 }
